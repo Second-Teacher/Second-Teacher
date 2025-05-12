@@ -45,4 +45,4 @@ def get_firebase_config():
     return jsonify(config)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True, threaded=False)
+    app.run(debug=True)

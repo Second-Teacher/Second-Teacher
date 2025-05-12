@@ -76,3 +76,53 @@ class UserRepository:
         self.delete_pdf_document(user_id)
         
         print(f"All data for user {user_id} has been deleted")
+
+        
+
+    def stt_exists(self, user_id):
+        """stt/UID 컬렉션에 사용자 uid 문서 존재 여부 확인"""
+        # 먼저 UID 문서가 있는지 확인
+        stt_uid_ref = self.db.collection('stt').document('UID')
+        stt_uid_doc = stt_uid_ref.get()
+        
+        if not stt_uid_doc.exists:
+            # UID 문서가 없으면 생성
+            stt_uid_ref.set({})
+            return False
+        
+        # 사용자 문서 존재 여부 확인 - 문서가 있는지 직접 확인
+        user_stt_ref = self.db.collection('stt').document('UID').collection(user_id).document(user_id)
+        user_stt_doc = user_stt_ref.get()
+        
+        return user_stt_doc.exists
+    
+    def create_stt_document(self, user_id):
+        """stt/UID 컬렉션에 사용자 uid 이름의 빈 문서 생성"""
+        user_stt_ref = self.db.collection('stt').document('UID').collection(user_id).document(user_id)
+        user_stt_ref.set({})
+        print(f"Created empty document at stt/UID/{user_id}/{user_id}")
+
+
+    def question_exists(self, user_id):
+        """question/UID 컬렉션에 사용자 uid 문서 존재 여부 확인"""
+        # 먼저 UID 문서가 있는지 확인
+        question_uid_ref = self.db.collection('question').document('UID')
+        question_uid_doc = question_uid_ref.get()
+        
+        if not question_uid_doc.exists:
+            # UID 문서가 없으면 생성
+            question_uid_ref.set({})
+            return False
+        
+        # 사용자 문서 존재 여부 확인 - 문서가 있는지 직접 확인
+        user_question_ref = self.db.collection('question').document('UID').collection(user_id).document(user_id)
+        user_question_doc = user_question_ref.get()
+        
+        return user_question_doc.exists
+    
+    def create_question_document(self, user_id):
+        """question/UID 컬렉션에 사용자 uid 이름의 빈 문서 생성"""
+        user_question_ref = self.db.collection('question').document('UID').collection(user_id).document(user_id)
+        user_question_ref.set({})
+        print(f"Created empty document at question/UID/{user_id}/{user_id}")
+    

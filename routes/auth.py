@@ -33,6 +33,12 @@ def authorize():
         if not user_repository.pdf_exists(user_id):
             user_repository.create_pdf_document(user_id)
         
+        if not user_repository.stt_exists(user_id):
+            user_repository.create_stt_document(user_id)
+
+        if not user_repository.question_exists(user_id):
+            user_repository.create_question_document(user_id)
+
         return redirect(url_for('dashboard.dashboard'))
     except Exception as e:
         print(f"Authentication error: {e}")

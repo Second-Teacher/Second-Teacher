@@ -2,6 +2,7 @@
 Date_of_creation: 2025-05-08 목 23:32:28
 Last_modified:
   - 2025-05-08 목 23:40:03
+  - 2025-05-11 일 15:30:00
 aliases:
   - Second Teacher 백엔드 실행 및 사용법 가이드
 tags: 
@@ -21,8 +22,8 @@ Reference:
 # 1. 의존성 설치
 pip install -r requirements.txt
 
-# 2. ffmpeg 설치 (Ubuntu 예시)
-sudo apt install ffmpeg
+# 2. ffmpeg 설치 (Windows 환경)
+winget install ffmpeg
 ```
 
 ## 📂 디렉토리 구성
@@ -31,16 +32,18 @@ sudo apt install ffmpeg
 second-teacher-backend/
 ├── app.py
 ├── requirements.txt
-├── uploads/
 ├── routes/
 │   ├── stt_route.py
-│   └── stt_generate_route.py
+│   ├── stt_generate_route.py
+│   └── pdf_summarizer.py
 ├── services/
-│   ├── whisper_service.py
+│   ├── audio_service.py
 │   ├── question_generator.py
-│   └── firestore_service.py
-└── firebase/
-    └── firebase_config.json
+│   ├── firebase_service.py
+│   └── gemini_service.py
+├── utils/
+│   └── file_utils.py
+└── firebase-auth.json
 ```
 
 # 2. ▶️ 서버 실행 방법
@@ -73,6 +76,23 @@ curl -X POST http://127.0.0.1:5000/api/stt-generate \
 - `file`: 음성파일
 - 텍스트만 반환
 
+```bash
+curl -X POST http://127.0.0.1:5000/api/stt \
+  -F "file=@example.wav"
+```
+
+## 📄 3. PDF 요약
+---
+- **POST /pdf/api/summarize**
+- `pdf_file`: PDF 파일
+- `prompt_option`: 요약 방식 (1 또는 2)
+
+```bash
+curl -X POST http://127.0.0.1:5000/pdf/api/summarize \
+  -F "pdf_file=@document.pdf" \
+  -F "prompt_option=1"
+```
+
 # 4. 📦 Firestore 저장 구조
 ---
 ```
@@ -91,6 +111,7 @@ lectures/
 
 | 항목 | 설명 |
 |------|------|
-| Firebase | `firebase_config.json` 필요 |
-| 음성파일 | mp3/wav 형식만 지원 |
+| Firebase | `firebase-auth.json` 필요 |
+| 음성파일 | mp3, wav, m4a, ogg 형식 지원 |
 | 오류 처리 | 음질 낮으면 빈 결과 반환 가능 |
+| 임시 파일 | 모든 업로드 파일은 시스템 임시 폴더에 저장 후 자동 삭제됨 |

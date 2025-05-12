@@ -4,12 +4,27 @@ import tempfile
 from pathlib import Path
 
 class AudioService:
-    def __init__(self):
-        # Whisper 모델 로드 (처음 한 번만 로드)
-        self.model = whisper.load_model("tiny")
+    def __init__(self, model_size="base"):
+        """
+        AudioService 초기화
+        Args:
+            model_size (str): Whisper 모델 크기 ("tiny", "base", "small", "medium", "large")
+        """
+        self.model = whisper.load_model(model_size)
     
     def transcribe_audio(self, audio_file):
-        """오디오 파일을 텍스트로 변환"""
+        """
+        오디오 파일을 텍스트로 변환
+        Args:
+            audio_file: 업로드된 오디오 파일 객체
+        Returns:
+            dict: 변환 결과
+            {
+                "success": bool,
+                "text": str (성공 시),
+                "error": str (실패 시)
+            }
+        """
         try:
             # 임시 파일로 저장
             with tempfile.NamedTemporaryFile(delete=False, suffix='.wav') as temp_file:
@@ -28,6 +43,13 @@ class AudioService:
             }
             
         except Exception as e:
+            # 에러 발생 시 임시 파일 정리
+            if 'temp_path' in locals():
+                try:
+                    os.unlink(temp_path)
+                except:
+                    pass
+            
             return {
                 "success": False,
                 "error": f"오디오 변환 중 오류가 발생했습니다: {str(e)}"

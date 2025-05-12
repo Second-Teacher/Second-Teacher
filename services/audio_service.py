@@ -2,15 +2,24 @@ import os
 import whisper
 import tempfile
 from pathlib import Path
+import torch
 
 class AudioService:
-    def __init__(self, model_size="base"):
+    def __init__(self, model_size="tiny"):
         """
         AudioService 초기화
         Args:
             model_size (str): Whisper 모델 크기 ("tiny", "base", "small", "medium", "large")
         """
-        self.model = whisper.load_model(model_size)
+        # CUDA가 사용 가능하면 사용, 아니면 CPU로 설정
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        
+        # 메모리 사용량 최적화
+        if self.device == "cpu":
+            torch.set_num_threads(4)  # CPU 스레드 제한
+        
+        # 작은 모델 크기 사용
+        self.model = whisper.load_model(model_size, device=self.device)
     
     def transcribe_audio(self, audio_file):
         """

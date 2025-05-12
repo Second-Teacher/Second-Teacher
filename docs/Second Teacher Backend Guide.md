@@ -26,6 +26,30 @@ pip install -r requirements.txt
 winget install ffmpeg
 ```
 
+## 🔧 ffmpeg 환경 변수 설정
+---
+ffmpeg 설치 후에는 시스템 환경 변수 PATH에 ffmpeg 경로를 추가해야 합니다.
+
+### Windows 환경에서 설정하는 방법
+1. 시작 메뉴를 클릭하고 "환경 변수"를 검색한 후 "시스템 환경 변수 편집"을 선택합니다.
+2. "환경 변수" 버튼을 클릭합니다.
+3. "시스템 변수" 섹션에서 "Path" 변수를 찾아 선택한 후 "편집" 버튼을 클릭합니다.
+4. "새로 만들기" 버튼을 클릭하고 ffmpeg가 설치된 경로를 추가합니다.
+   - 일반적으로 `C:\Program Files\ffmpeg\bin` 또는 
+   - winget으로 설치한 경우 `C:\Users\<사용자명>\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-<버전>-full_build\bin`
+5. "확인" 버튼을 모두 클릭하여 창을 닫습니다.
+6. 명령 프롬프트를 열고 `ffmpeg -version` 명령으로 설치 및 환경 변수 설정이 제대로 되었는지 확인합니다.
+
+### 대안: 코드에서 직접 FFmpeg 경로 설정
+환경 변수 설정이 어려운 경우, `services/audio_service.py` 파일 상단에 다음 코드를 추가하여 프로그램 실행 시 FFmpeg 경로를 환경 변수에 추가할 수 있습니다:
+
+```python
+# FFmpeg 경로를 환경 변수에 추가
+import os
+os.environ["PATH"] += os.pathsep + r"C:\path\to\ffmpeg\bin" 
+# 실제 ffmpeg 경로로 변경하세요
+```
+
 ## 📂 디렉토리 구성
 ---
 ```
@@ -131,5 +155,6 @@ lectures/
 |------|------|
 | Firebase | `firebase-auth.json` 필요 |
 | 음성파일 | mp3, wav, m4a, ogg 형식 지원 |
+| FFmpeg | 오디오 변환을 위해 필수 설치, 환경 변수 PATH에 등록 필요 |
 | 오류 처리 | 음질 낮으면 빈 결과 반환 가능 |
 | 임시 파일 | 모든 업로드 파일은 시스템 임시 폴더에 저장 후 자동 삭제됨 |

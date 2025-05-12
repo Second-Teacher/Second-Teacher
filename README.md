@@ -1,6 +1,7 @@
 ---
 Date_of_creation: 2025-05-06 화 22:56:25
 Last_modified:
+  - 2025-05-13 화 02:43:40
   - 2025-05-08 목 21:11:53
   - 2025-05-07 수 20:33:07
   - 2025-05-06 화 23:58:47
@@ -15,8 +16,8 @@ Reference:
 ---
 - **프로젝트명**: 세컨드 티처 (Second Teacher)
 - **목표**: 강의 데이터 기반으로 시험 문제를 생성하여
-	- **교수자**는 **간편하게 시험 문제를 생성**할 수 있고
-	- **학생**은 **기출 기반 학습 자료**를 통해 **시험을 효율적으로 준비**할 수 있음.
+	- **교수자**는 **간편하게 시험 문제를 생성**할 수 있고
+	- **학생**은 **기출 기반 학습 자료**를 통해 **시험을 효율적으로 준비**할 수 있음.
 - **수행기간**: 2025.04.25 ~ 2025.05.16 (3주)
 - **사용 기술**: Python, Flask, Firebase Firestore, 외부 STT API
 - **팀원 및 역할**:
@@ -27,13 +28,13 @@ Reference:
 # 2. 주요 기능
 ---
 - <font color="#de7802"><b>로컬 서버 실행 방법</b></font>
-	1. **SDK 키 파일**과 **웹 API 키 파일**은 `app.py`가 있는 **가장 상위 디렉토리**에 위치시켜 주세요.
-	2. 위 명령어를 터미널에서 순서대로 입력하세요.
+	1. **SDK 키 파일**과 **웹 API 키 파일**은 `app.py`가 있는 **가장 상위 디렉토리**에 위치시켜 주세요.
+	2. 위 명령어를 터미널에서 순서대로 입력하세요.
   ```python title="실행 방법"
   pip install -r requirements.txt
   python app.py
   ```
-	3. 실행 후 [http://127.0.0.1:5000/](http://127.0.0.1:5000/) 주소로 접속하면 됩니다.
+	3. 실행 후 [http://127.0.0.1:5000/](http://127.0.0.1:5000/) 주소로 접속하면 됩니다.
 
 | 구분        | 기능명           | 설명                                   |
 | --------- | ------------- | ------------------------------------ |
@@ -44,19 +45,19 @@ Reference:
 | ⚙️ 백엔드    | 문제 생성 로직 처리   | 텍스트 처리, 문제 템플릿 매칭, 생성 로직 구현          |
 | 💾 DB 연동  | 학습 데이터 저장     | Firestore 기반으로 생성된 문제 및 학습 데이터 저장/조회 |
 
-# 3. 기술 스택 및 상세 기능 (분류 통합)
+# 3. 기술 스택 및 상세 기능 (분류 통합)
 ---
-## 🔧 **Backend**
+## 🔧 **Backend**
 ---
-- **사용 기술**: Python, Flask
-- **주요 기능**:
-    - 음성 파일 STT 변환 처리
-        - `Whisper` API 사용
-        - 예외 처리: 음질 저하 시 오류 메시지 출력
-    - 문제 자동 생성
-        - 방식: 템플릿 매칭 + 자연어 처리
-        - 문제 형태: 객관식, 주관식
-    - API 연동 및 백엔드 로직 처리 전반
+- **사용 기술**: Python, Flask
+- **주요 기능**:
+    - 음성 파일 STT 변환 처리
+        - `Whisper` API 사용
+        - 예외 처리: 음질 저하 시 오류 메시지 출력
+    - 문제 자동 생성
+        - 방식: 템플릿 매칭 + 자연어 처리
+        - 문제 형태: 객관식, 주관식
+    - API 연동 및 백엔드 로직 처리 전반
 
 ### 👉 사용 가능한 Whisper 모델 비교표
 ---
@@ -69,20 +70,20 @@ Reference:
 | `medium` | 높음 (~88%)    | 느림            | 7~8GB 이상          | ~1.5GB     | 상당히 정확, 긴 오디오에 적합  |
 | `large`  | 매우 높음 (~93%) | 매우 느림         | 10~12GB 이상        | ~2.9GB     | 가장 정확, 고성능 GPU 필요  |
 
-## 🎨 **Frontend**
+## 🎨 **Frontend**
 ---
-- **사용 기술**: HTML / CSS / JS 기반 (React 스타일 포함 가능)
-- **주요 기능**:
-    - 문제 표시 UI
-    - 문제 제출 인터페이스
-    - 반응형 UI 구현
+- **사용 기술**: HTML / CSS / JS 기반 (React 스타일 포함 가능)
+- **주요 기능**:
+    - 문제 표시 UI
+    - 문제 제출 인터페이스
+    - 반응형 UI 구현
 
-## 🗂 **Database**
+## 🗂 **Database**
 ---
-- **사용 기술**: Firebase Firestore
-- **주요 기능**:
-    - 문제 및 사용자 기록 저장
-    - 스키마 예시:
+- **사용 기술**: Firebase Firestore
+- **주요 기능**:
+    - 문제 및 사용자 기록 저장
+    - 스키마 예시:
         - `lectures/{lecture_id}/questions/{question_id}`
         - `users/{user_id}/records/`
 
@@ -130,48 +131,49 @@ graph TD
 # 8. Todo 리스트
 ---
 ## 8.1. 기획 및 자료 준비
-- [ ] 강의 음성 파일 수집
-- [ ] 강의 교안 PDF 수집
-- [ ] 문제 유형(객관식, 주관식 등) 정의
-- [ ] 최소 입력 자료 형식 가이드라인 작성
+- [ ] 강의 음성 파일 수집 - 구현 중 (오디오 업로드 기능 있음)
+- [x] 강의 교안 PDF 수집 - 구현됨 ([pdf_summarizer.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/pdf_summarizer.py))
+- [ ] 문제 유형(객관식, 주관식 등) 정의 - 일부 구현 ([stt_generate_route.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/stt_generate_route.py))
+- [x] 최소 입력 자료 형식 가이드라인 작성 - 구현됨 ([utils/file_utils.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/utils/file_utils.py))
 
 ## 8.2. 백엔드 개발
-- [ ] Flask 프로젝트 초기화 및 디렉토리 구조 설계
-- [ ] STT API 연동 및 전처리 로직 구현
-    - [ ] 음성 → 텍스트 변환 처리
-    - [ ] 음질 저하 예외 처리 및 오류 메시지 출력
-- [ ] 문제 생성 로직 설계 및 구현
-    - [ ] 교안 + 텍스트 데이터 통합 분석
-    - [ ] 템플릿 기반 객관식/주관식 문제 생성
-- [ ] API 요청 라우팅 구성
-- [ ] 로그 및 에러 기록 시스템 설계
+- [x] 디렉토리 구조 설계 - 완료 ([Second Teacher Backend Guide > 📂 디렉토리 구성](https://github.com/Second-Teacher/Second-Teacher/blob/main/docs/Second%20Teacher%20Backend%20Guide.md#-%EB%94%94%EB%A0%89%ED%86%A0%EB%A6%AC-%EA%B5%AC%EC%84%B1))
+- [x] Flask 프로젝트 초기화 - 완료 ([app.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/app.py))
+- [x] STT API 연동 및 전처리 로직 구현 - 완료 ([services/audio_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/audio_service.py))
+    - [x] 음성 → 텍스트 변환 처리 - 완료 ([services/audio_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/audio_service.py))
+    - [x] 음질 저하 예외 처리 및 오류 메시지 출력 - 완료 ([services/audio_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/audio_service.py))
+- [ ] 문제 생성 로직 설계 및 구현 - 일부 구현
+    - [x] 교안 + 텍스트 데이터 통합 분석 - 완료 ([services/gemini_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/gemini_service.py))
+    - [ ] 템플릿 기반 객관식/주관식 문제 생성 - 일부 구현 ([services/question_generator.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/question_generator.py))
+- [x] API 요청 라우팅 구성 - 완료 ([routes/](https://github.com/Second-Teacher/Second-Teacher/tree/main/routes))
+- [x] 로그 및 에러 기록 시스템 설계 - 완료 ([utils/file_utils.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/utils/file_utils.py))
 
 ## 8.3. 프론트엔드 개발
-- [ ] UI 기본 구조 설계
+- [x] UI 기본 구조 설계 - 완료 ([templates/](https://github.com/Second-Teacher/Second-Teacher/tree/main/templates))
     - [ ] 문제 출력 영역
     - [ ] 문제 입력/제출 폼
-- [ ] 반응형 UI 구현 (모바일/PC 대응)
+- [x] 반응형 UI 구현 (모바일/PC 대응) - 완료 ([static/main_styles.css](https://github.com/Second-Teacher/Second-Teacher/blob/main/static/main_styles.css))
 - [ ] 문제 결과 출력 페이지 구현
-- [ ] 사용자 피드백 표시 (성공/실패, 에러 등)
-- [ ] 백엔드 API 연동 테스트 및 UI 응답 처리
+- [x] 사용자 피드백 표시 (성공/실패, 에러 등) - 완료 ([templates/pdf_summarizer.html](https://github.com/Second-Teacher/Second-Teacher/blob/main/templates/pdf_summarizer.html), [templates/audio_uploader.html](https://github.com/Second-Teacher/Second-Teacher/blob/main/templates/audio_uploader.html))
+- [x] 백엔드 API 연동 테스트 및 UI 응답 처리 - 완료 ([static/pdf_summarizer.js](https://github.com/Second-Teacher/Second-Teacher/blob/main/static/pdf_summarizer.js), [static/audio_uploader.js](https://github.com/Second-Teacher/Second-Teacher/blob/main/static/audio_uploader.js))
 
 ## 8.4. DB 및 API 연동
-- [ ] Firebase Firestore 연동 설정
-- [ ] 데이터 스키마 설계
-    - [ ] 강의 정보
-    - [ ] 문제 및 정답
-    - [ ] 사용자 풀이 기록
-- [ ] STT API 연동 및 테스트
-- [ ] 문제 및 학습 데이터 저장 기능 구현
-- [ ] 사용자 기록 저장 및 조회 기능 구현
+- [x] Firebase Firestore 연동 설정 - 완료 ([services/firebase_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/firebase_service.py))
+- [x] 데이터 스키마 설계 - 완료 ([routes/pdf_summarizer.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/pdf_summarizer.py), [routes/stt_generate_route.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/stt_generate_route.py))
+    - [x] 강의 정보 - 완료 ([routes/summary_viewer.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/summary_viewer.py))
+    - [x] 문제 및 정답 - 완료 ([services/question_generator.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/question_generator.py))
+    - [x] 사용자 풀이 기록 - 완료 ([routes/profile.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/profile.py))
+- [x] STT API 연동 및 테스트 - 완료 ([services/audio_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/audio_service.py))
+- [x] 문제 및 학습 데이터 저장 기능 구현 - 완료 ([services/firebase_service.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/services/firebase_service.py))
+- [x] 사용자 기록 저장 및 조회 기능 구현 - 완료 ([routes/profile.py](https://github.com/Second-Teacher/Second-Teacher/blob/main/routes/profile.py))
 
 ## 8.5. 테스트 및 통합
-- [ ] 음성 파일 → 문제 생성 전체 플로우 테스트
-- [ ] 오류 및 예외 상황 테스트
-- [ ] UI/UX 동작 검토 및 피드백 반영
-- [ ] 데이터 저장/조회 기능 테스트
+- [ ] 음성 파일 → 문제 생성 전체 플로우 테스트 - 진행 중
+- [ ] 오류 및 예외 상황 테스트 - 진행 중
+- [ ] UI/UX 동작 검토 및 피드백 반영 - 진행 중
+- [ ] 데이터 저장/조회 기능 테스트 - 진행 중
 
 ## 8.6. 문서 및 발표자료
-- [x] GitHub README 작성
-- [ ] 발표자료 제작
-- [ ] 프로젝트 회고 정리
+- [x] GitHub README 작성 - 완료 ([README.md](https://github.com/Second-Teacher/Second-Teacher/blob/main/README.md))
+- [ ] 발표자료 제작 - 미완료
+- [ ] 프로젝트 회고 정리 - 미완료

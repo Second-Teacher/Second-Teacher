@@ -5,6 +5,7 @@ from routes.auth import auth_bp
 from routes.public import public_bp
 from routes.dashboard import dashboard_bp
 from routes.pdf_summarizer import pdf_bp as pdf
+from routes.audio_uploader import audio_bp as audio
 import os
 from dotenv import load_dotenv
 from services.firebase_service import db
@@ -27,6 +28,7 @@ app.register_blueprint(dashboard_bp)
 app.register_blueprint(pdf)
 app.register_blueprint(profile_bp)
 app.register_blueprint(summary_bp)
+app.register_blueprint(audio)
 
 # Firebase config endpoint
 @app.route('/api/firebase-config')
@@ -43,4 +45,4 @@ def get_firebase_config():
     return jsonify(config)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=8080, debug=True, threaded=False)

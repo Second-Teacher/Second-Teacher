@@ -2,10 +2,14 @@ from flask import Blueprint, render_template, request, jsonify, session
 from services.auth import auth_required  # 데코레이터 경로를 services로 변경
 from services.gemini_service import GeminiService
 from firebase_admin import firestore
+from utils.file_utils import validate_file_request
 
 
 pdf_bp = Blueprint('pdf', __name__)
 gemini_service = GeminiService()
+
+# PDF 파일 확장자
+PDF_EXTENSIONS = {'pdf'}
 
 @pdf_bp.route('/summarizer')
 @auth_required
@@ -18,28 +22,18 @@ def summarizer():
 def summarize():
     """PDF 업로드 및 요약 API"""
     try:
-        # 파일 존재 확인
-        if 'pdf_file' not in request.files:
-            return jsonify({
-                "success": False,
-                "error": "PDF 파일이 제공되지 않았습니다."
-            }), 400
+        # 파일 요청 검증
+        is_valid, result, status_code = validate_file_request(
+            request, 
+            file_key='pdf_file', 
+            required_extensions=PDF_EXTENSIONS
+        )
         
-        pdf_file = request.files['pdf_file']
+        if not is_valid:
+            return jsonify({"success": False, "error": result["error"]}), status_code
         
-        # 파일명 확인
-        if pdf_file.filename == '':
-            return jsonify({
-                "success": False,
-                "error": "선택된 파일이 없습니다."
-            }), 400
-        
-        # PDF 파일 확인
-        if not pdf_file.filename.lower().endswith('.pdf'):
-            return jsonify({
-                "success": False,
-                "error": "PDF 파일만 업로드할 수 있습니다."
-            }), 400
+        # 검증 통과 시 file 객체를 가져옴
+        pdf_file = result
         
         # 프롬프트 옵션 가져오기
         prompt_option = request.form.get('prompt_option', '1')

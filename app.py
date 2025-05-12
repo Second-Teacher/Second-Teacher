@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from services.firebase_service import db
 from config.settings import configure_app
 from routes.profile import profile_bp
+from routes.summary_viewer import summary_bp
 
 # Load environment variables
 load_dotenv()
@@ -25,6 +26,7 @@ app.register_blueprint(public_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(pdf)
 app.register_blueprint(profile_bp)
+app.register_blueprint(summary_bp)
 
 # Firebase config endpoint
 @app.route('/api/firebase-config')

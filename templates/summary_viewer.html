@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>요약 보기</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='summary_viewer.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-right">
+            <a href="{{ url_for('dashboard.dashboard') }}">대시보드</a>
+            <a href="{{ url_for('public.logout') }}">로그아웃</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>요약 내용 보기</h1>
+        <p>저장된 PDF 요약 및 STT 변환 내용을 확인하고 수정할 수 있습니다.</p>
+        
+        <div class="type-selector">
+            <h3>내용 유형 선택</h3>
+            <div class="type-buttons">
+                <button id="pdfBtn" class="button active" data-type="pdf">PDF 요약 보기</button>
+                <button id="sttBtn" class="button" data-type="stt">STT 변환 내용 보기</button>
+            </div>
+        </div>
+        
+        <button id="loadBtn" class="button">선택한 내용 조회</button>
+        
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>데이터를 불러오는 중입니다...</p>
+        </div>
+        
+        <div id="error" class="error-message hidden"></div>
+        <div id="success" class="success-message hidden"></div>
+        
+        <div class="flex-container">
+            <div class="summary-list" id="summaryList">
+                <p>조회 버튼을 클릭하여 목록을 불러오세요.</p>
+            </div>
+            
+            <div class="summary-content" id="summaryContent">
+                <div id="viewModeContent">
+                    <p>항목을 선택하면 내용이 여기에 표시됩니다.</p>
+                </div>
+                
+                <div id="editModeContent" class="hidden">
+                    <div class="content-header">
+                        <h2 id="editTitle"></h2>
+                        <p><strong>유형:</strong> <span id="editType"></span></p>
+                    </div>
+                    <textarea id="editTextarea" class="editable-content" placeholder="내용을 수정하세요..."></textarea>
+                    <div class="content-actions">
+                        <button id="saveBtn" class="button">저장하기</button>
+                        <button id="cancelBtn" class="button">취소</button>
+                    </div>
+                </div>
+                
+                <div class="content-actions">
+                    <div class="edit-mode-toggle">
+                        <span>보기 모드</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="editModeToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>편집 모드</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='summary_viewer.js') }}"></script>
+</body>
+</html>

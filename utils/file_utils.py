@@ -1,5 +1,5 @@
 # 오디오 파일 확장자 지원
-ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'wav', 'm4a', 'ogg'}
+ALLOWED_AUDIO_EXTENSIONS = {'mp3', 'wav', 'm4a', 'ogg', 'aac'}
 
 def is_allowed_audio_file(filename):
     """

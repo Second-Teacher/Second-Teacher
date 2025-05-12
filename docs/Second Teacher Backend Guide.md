@@ -30,20 +30,38 @@ winget install ffmpeg
 ---
 ```
 second-teacher-backend/
-├── app.py
-├── requirements.txt
-├── routes/
-│   ├── stt_route.py
-│   ├── stt_generate_route.py
-│   └── pdf_summarizer.py
-├── services/
-│   ├── audio_service.py
-│   ├── question_generator.py
-│   ├── firebase_service.py
-│   └── gemini_service.py
-├── utils/
-│   └── file_utils.py
-└── firebase-auth.json
+├── app.py                               # 애플리케이션 진입점, 라우트 등록 및 설정
+├── requirements.txt                     # 프로젝트 의존성 패키지 목록
+├── firebase-auth.json                   # Firebase 인증 키 파일
+├── routes/                              # 라우트 정의 모듈 
+│   ├── auth.py                          # 인증 관련 라우트
+│   ├── dashboard.py                     # 대시보드 라우트
+│   ├── pdf_summarizer.py                # PDF 요약 관련 라우트
+│   ├── profile.py                       # 사용자 프로필 관련 라우트 
+│   ├── public.py                        # 공개 페이지 라우트
+│   ├── stt_generate_route.py            # STT 변환 및 문제 생성 라우트
+│   ├── stt_route.py                     # STT 변환 라우트
+│   └── summary_viewer.py                # 요약 내용 조회 라우트
+├── services/                            # 비즈니스 로직 서비스 모듈
+│   ├── audio_service.py                 # Whisper를 활용한 오디오 처리 서비스
+│   ├── auth.py                          # 인증 미들웨어 및 관련 서비스
+│   ├── firebase_service.py              # Firebase 연동 서비스
+│   ├── gemini_service.py                # Gemini AI 연동 서비스
+│   ├── question_generator.py            # 문제 생성 서비스
+│   └── __init__.py                      # 패키지 초기화 파일
+├── repositories/                        # 데이터 접근 계층 모듈
+│   └── user_repository.py               # 사용자 데이터 관리 레포지토리
+├── utils/                               # 유틸리티 모듈
+│   ├── file_utils.py                    # 파일 검증 및 처리 유틸리티
+│   └── __init__.py                      # 패키지 초기화 파일
+├── templates/                           # HTML 템플릿 파일
+├── static/                              # 정적 자원 파일 (JS, CSS 등)
+├── config/                              # 애플리케이션 설정 모듈
+│   └── settings.py                      # 환경 설정 관리
+├── decorators/                          # 데코레이터 모듈
+└── docs/                                # 프로젝트 문서
+    ├── Backend Workflow.md              # 백엔드 워크플로우 설명
+    └── Second Teacher Backend Guide.md  # 백엔드 가이드
 ```
 
 # 2. ▶️ 서버 실행 방법

@@ -4,28 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='main_styles.css') }}">
-    <title>Sign Up</title>
+    <title>회원가입</title>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('public.home') }}">홈페이지</a>
-        <a href="{{ url_for('public.login') }}">로그인</a>
-        <a href="{{ url_for('public.signup') }}">회원가입</a>
+    <nav class="top-nav">
+        <a href="/" class="logo">Second-Teacher</a>
+        <div>
+            <a href="{{ url_for('public.home') }}" style="text-decoration: none; color: #333; margin-right: 1rem;">홈페이지</a>
+            <a href="{{ url_for('public.login') }}" style="text-decoration: none; color: #333;">로그인</a>
+        </div>
     </nav>
     
-    <main>
-        <h1>Sign Up</h1>
-        <div class="signup-form">
-            <input type="email" id="email-input" placeholder="이메일" required>
-            <input type="password" id="password-input" placeholder="비밀번호" required>
-            <button id="create-account-btn">계정 생성</button>
-            
-            <button id="sign-up-with-google-btn">
-                <img src="{{ url_for('static', filename='images/google-icon.png') }}" alt="Google">
-                Sign up with Google
-            </button>
-            
-            <p>계정이 있으십니까? <a href="{{ url_for('public.login') }}">로그인</a></p>
+    <main class="main-container auth-page_container">
+        <div class="login-form-container">
+            <div class="login-form">
+                <h2>회원가입</h2>
+                <p style="color: #666; margin-bottom: 1.5rem; text-align: center;">새 계정을 만들고 학습 도우미 서비스를 시작하세요.</p>
+                
+                <div class="input-group">
+                    <input type="email" id="email-input" placeholder="이메일" required>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="password-input" placeholder="비밀번호" required>
+                </div>
+                
+                <button id="create-account-btn" class="login-btn">계정 만들기</button>
+                
+                <div class="alt-signin-divider">또는</div>
+                
+                <button id="sign-up-with-google-btn" class="google-login-btn">
+                    <img src="{{ url_for('static', filename='images/google-icon.png') }}" alt="Google" class="google-btn-logo">
+                    Google로 회원가입
+                </button>
+                
+                <div class="signup-link-container">
+                    <p>이미 계정이 있으신가요? <a href="{{ url_for('public.login') }}" style="color: #007bff; text-decoration: none;">로그인</a></p>
+                </div>
+            </div>
         </div>
     </main>
     

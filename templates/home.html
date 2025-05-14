@@ -4,17 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='main_styles.css') }}">
-    <title>Home</title>
+    <title>Second-Teacher</title>
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('public.login') }}">로그인</a>
-        <a href="{{ url_for('public.signup') }}">회원가입</a>
+    <nav class="top-nav">
+        <a href="/" class="logo">Second-Teacher</a>
+        <div>
+            <a href="{{ url_for('public.login') }}" style="text-decoration: none; color: #333; margin-right: 1rem;">로그인</a>
+            <a href="{{ url_for('public.signup') }}" style="text-decoration: none; color: #333;">회원가입</a>
+        </div>
     </nav>
     
-    <main>
-        <h1>Welcome</h1>
-        <p>홈페이지 입니다. 로그인 or 회원가입을 진행해주세요.</p>
+    <main class="main-container">
+        <section class="hero-section">
+            <h1 class="hero-title">시험 준비 효율을 높이는 AI 도우미</h1>
+            <p class="hero-text">업로드 기능으로 학습 자료를 효율적으로 관리하세요. 문제 생성 기능으로 다가오는 시험을 준비하세요.</p>
+            
+            <div class="auth-buttons">
+                <a href="{{ url_for('public.login') }}" class="auth-button login-button">로그인</a>
+                <a href="{{ url_for('public.signup') }}" class="auth-button signup-button">회원가입</a>
+            </div>
+        </section>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3 class="feature-title">학습자료 업로드</h3>
+                <p class="feature-description">긴 PDF 형식의 학습자료를 AI가 자동으로 요약해 핵심 내용만 빠르게 파악 및 저장할 수 있습니다.</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">음성자료 변환기</h3>
+                <p class="feature-description">강의 녹음 파일등의 음성자료를 텍스트로 변환하여 학습 자료로 활용할 수 있습니다.</p>
+            </div>
+            <div class="feature-card">
+                <h3 class="feature-title">시험 문제 생성</h3>
+                <p class="feature-description">업로드한 자료들을 바탕으로 시험 문제를 자동 생성하여 학습 효과를 확인할 수 있습니다.</p>
+            </div>
+        </div>
     </main>
 </body>
 </html>

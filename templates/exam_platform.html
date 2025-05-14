@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시험 플랫폼</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='exam_styles.css') }}">
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="/">시험 플랫폼</a>
+        </div>
+        <div class="navbar-right">
+            <a href="/dashboard">대시보드</a>
+            <a href="/logout">로그아웃</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>시험 설정</h1>
+        <p>시험을 보기 전에 원하는 문제 수와 유형을 선택해주세요.</p>
+        
+        <form id="examConfigForm">
+            <!-- 1단계: 총 문제 수 선택 -->
+            <div id="step1" class="form-step">
+                <div class="form-group">
+                    <label>총 문제 수를 선택하세요:</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="questions5" name="total_questions" value="5">
+                            <label for="questions5">5</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="questions10" name="total_questions" value="10" checked>
+                            <label for="questions10">10</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="questions15" name="total_questions" value="15">
+                            <label for="questions15">15</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="questions20" name="total_questions" value="20">
+                            <label for="questions20">20</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="questions30" name="total_questions" value="30">
+                            <label for="questions30">30</label>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="continueBtn" class="btn btn-full">계속하기</button>
+                </div>
+            </div>
+            
+            <!-- 2단계: 문제 유형 비율 설정 -->
+            <div id="step2" class="form-step hidden">
+                <h2>문제 유형 설정</h2>
+                <p>총 <span id="selectedQuestionCount">10</span>개의 문제 중 각 유형별 개수를 선택하세요.</p>
+                
+                <div class="form-group">
+                    <label for="shortAnswerCount">서술형 문제 수:</label>
+                    <div class="range-control">
+                        <input type="range" id="shortAnswerCount" name="short_answer_count" min="0" max="10" value="5">
+                        <span class="range-display" id="shortAnswerDisplay">5</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="multipleChoiceCount">선택형 문제 수:</label>
+                    <div class="range-control">
+                        <input type="range" id="multipleChoiceCount" name="multiple_choice_count" min="0" max="10" value="5">
+                        <span class="range-display" id="multipleChoiceDisplay">5</span>
+                    </div>
+                </div>
+                
+                <div class="summary-box" id="examSummary">
+                    <h3>시험 구성 요약</h3>
+                    <div>
+                        <div>총 문제 수: <strong id="summaryTotal">10</strong>문제</div>
+                        <div>서술형: <strong id="summaryShort">5</strong>문제</div>
+                        <div>선택형: <strong id="summaryMultiple">5</strong>문제</div>
+                    </div>
+                    <p id="validationMessage" class="hidden" style="color: var(--danger-color);"></p>
+                </div>
+                
+                <div class="flex justify-between mt-2">
+                    <button type="button" id="backBtn" class="btn btn-secondary">이전으로</button>
+                    <button type="submit" id="startExamBtn" class="btn btn-success">시험 시작</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <script src="{{ url_for('static', filename='exam_platform.js') }}"></script>
+</body>
+</html>

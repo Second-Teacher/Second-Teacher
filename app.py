@@ -13,6 +13,7 @@ from config.settings import configure_app
 from routes.profile import profile_bp
 from routes.summary_viewer import summary_bp
 from routes.stt_summary import stt_summary_bp
+from routes.exam_routes import exam_bp
 
 # Load environment variables
 load_dotenv()
@@ -31,6 +32,8 @@ app.register_blueprint(profile_bp)
 app.register_blueprint(summary_bp)
 app.register_blueprint(audio)
 app.register_blueprint(stt_summary_bp)
+app.register_blueprint(exam_bp)
+
 
 # Firebase config endpoint
 @app.route('/api/firebase-config')

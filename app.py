@@ -27,13 +27,12 @@ app.register_blueprint(stt_gen_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(public_bp)
 app.register_blueprint(dashboard_bp)
-app.register_blueprint(pdf)
+app.register_blueprint(pdf, url_prefix='/pdf')
 app.register_blueprint(profile_bp)
 app.register_blueprint(summary_bp)
 app.register_blueprint(audio)
 app.register_blueprint(stt_summary_bp)
 app.register_blueprint(exam_bp)
-
 
 # Firebase config endpoint
 @app.route('/api/firebase-config')

@@ -5,7 +5,7 @@ from pathlib import Path
 import torch
 
 class AudioService:
-    def __init__(self, model_size="tiny"):
+    def __init__(self, model_size="base"):
         """
         AudioService 초기화
         Args:

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}음성 변환 - Second Teacher{% endblock %}
+
+{% block content %}
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-6">음성을 텍스트로 변환</h1>
+    
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <form id="audioUploadForm" class="space-y-4">
+            <div>
+                <label for="audioFile" class="block text-sm font-medium text-gray-700 mb-1">오디오 파일 선택 (.mp3, .wav, .m4a)</label>
+                <input type="file" id="audioFile" name="audioFile" accept=".mp3,.wav,.m4a" class="block w-full border border-gray-300 rounded-md p-2">
+            </div>
+            <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
+                변환 시작
+            </button>
+        </form>
+    </div>
+    
+    <!-- 로딩 섹션 -->
+    <div id="loaderSection" class="bg-white p-6 rounded-lg shadow-md mb-6 hidden">
+        <div class="flex flex-col items-center">
+            <div class="loader mb-4"></div>
+            <p class="text-gray-600">음성 변환 중...</p>
+            <p class="text-sm text-gray-500 mt-2">파일 크기에 따라 시간이 소요될 수 있습니다.</p>
+        </div>
+    </div>
+    
+    <!-- 결과 섹션 -->
+    <div id="resultSection" class="bg-white p-6 rounded-lg shadow-md mb-6 hidden">
+        <h2 class="text-xl font-semibold mb-4">변환 결과</h2>
+        <p id="sttServiceInfo" class="text-sm text-blue-600 mb-2">사용된 STT 서비스: </p>
+        <div class="mb-4">
+            <textarea id="editableTranscription" rows="10" class="w-full border border-gray-300 rounded-md p-3 mb-2" placeholder="변환된 텍스트가 여기에 표시됩니다."></textarea>
+            <p class="text-sm text-gray-500">변환된 텍스트를 편집할 수 있습니다.</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <button id="copyBtn" class="py-2 px-4 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none">
+                클립보드에 복사
+            </button>
+            <button id="downloadBtn" class="py-2 px-4 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none">
+                텍스트 파일로 다운로드
+            </button>
+            {% if current_user.is_authenticated %}
+            <button id="saveBtn" class="py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none">
+                DB에 저장
+            </button>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- 오류 섹션 -->
+    <div id="errorSection" class="bg-white p-6 rounded-lg shadow-md mb-6 hidden">
+        <div class="flex items-center text-red-600 mb-2">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 112 0v4a1 1 0 11-2 0V9zm1-5.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd"></path>
+            </svg>
+            <h2 class="text-lg font-semibold">오류 발생</h2>
+        </div>
+        <p id="errorMessage" class="text-gray-700"></p>
+    </div>
+    
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-xl font-semibold mb-4">사용 안내</h2>
+        <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li>지원 파일 형식: MP3, WAV, M4A</li>
+            <li>최대 파일 크기: 25MB</li>
+            <li>온라인 상태일 때는 Google Cloud Speech가, 오프라인 상태일 때는 Whisper 모델이 사용됩니다.</li>
+            <li>변환된 텍스트는 사용자가 직접 편집할 수 있습니다.</li>
+            <li>변환된 텍스트는 클립보드에 복사하거나 텍스트 파일로 다운로드할 수 있습니다.</li>
+            <li>로그인한 사용자는 변환 결과를 DB에 저장할 수 있습니다.</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='audio_uploader.js') }}"></script>
+{% endblock %} 

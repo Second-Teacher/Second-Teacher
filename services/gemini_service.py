@@ -5,6 +5,8 @@ import json
 import PyPDF2
 import io
 from dotenv import load_dotenv
+import google.generativeai as genai
+from typing import Dict, Optional
 
 load_dotenv()
 
@@ -13,9 +15,14 @@ GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini
 
 class GeminiService:
     def __init__(self):
-        self.api_key = GEMINI_API_KEY
-        self.api_url = GEMINI_API_URL
-    
+        # Gemini API 키 설정
+        api_key = os.getenv('GEMINI_API_KEY')
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY environment variable is not set")
+        
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-pro')
+        
     def summarize_pdf(self, pdf_file, prompt_option=1):
         """PDF 파일을 분석하여 요약"""
         try:
@@ -121,3 +128,75 @@ class GeminiService:
                 "success": False,
                 "error": str(e)
             }
+
+    def generate_question(self, text: str) -> Optional[Dict]:
+        """
+        Gemini API를 사용하여 주어진 텍스트로부터 문제를 생성
+        
+        Args:
+            text (str): 문제를 생성할 텍스트
+            
+        Returns:
+            dict: 생성된 문제 정보
+        """
+        try:
+            # 프롬프트 구성
+            prompt = f"""
+            다음 텍스트를 바탕으로 교육용 문제를 생성해주세요:
+            
+            {text}
+            
+            다음 형식으로 응답해주세요:
+            1. 객관식 문제 1개
+            2. 주관식 문제 1개
+            
+            각 문제는 다음 형식을 따라주세요:
+            객관식:
+            - type: "multiple"
+            - question: "문제 내용"
+            - options: ["보기1", "보기2", "보기3", "보기4"]
+            - answer: 정답 인덱스 (0-3)
+            
+            주관식:
+            - type: "short"
+            - question: "문제 내용"
+            - answer: "정답"
+            """
+            
+            # Gemini API 호출
+            response = self.model.generate_content(prompt)
+            
+            # 응답 파싱 및 구조화
+            questions = self._parse_response(response.text)
+            
+            return questions
+            
+        except Exception as e:
+            print(f"Error generating question with Gemini: {str(e)}")
+            return None
+            
+    def _parse_response(self, response_text: str) -> Dict:
+        """
+        Gemini API의 응답을 파싱하여 구조화된 문제 데이터로 변환
+        """
+        # 응답 텍스트를 파싱하여 문제 데이터 추출
+        # 실제 구현에서는 응답 형식에 맞게 파싱 로직 구현 필요
+        try:
+            # 임시 구현 - 실제로는 더 정교한 파싱 필요
+            questions = {
+                "multiple": {
+                    "type": "multiple",
+                    "question": "객관식 문제 예시",
+                    "options": ["보기1", "보기2", "보기3", "보기4"],
+                    "answer": 0
+                },
+                "short": {
+                    "type": "short",
+                    "question": "주관식 문제 예시",
+                    "answer": "정답 예시"
+                }
+            }
+            return questions
+        except Exception as e:
+            print(f"Error parsing Gemini response: {str(e)}")
+            return None
